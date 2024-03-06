@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Backend\LoginController;
+use App\Http\Controllers\Backend\DashboardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,10 +15,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('backend.includes.main');
+Route::group(['namespace'=>'Backend', 'prefix'=>'admin', 'middleware'=>'guest:backend'], function () {
+    Route::get('login', [LoginController::class, 'show'])->name('admin.login.show');
+    Route::post('login', [LoginController::class, 'login'])->name('admin.login.submit');
 });
 
-Route::get('/dashboard', function () {
-    return view( 'backend.dashboard' );
+Route::group(['namespace'=>'Backend', 'prefix'=>'admin', 'middleware'=>'auth:backend'], function () {
+    Route::get('/', [DashboardController::class, 'index'])->name('admin.dashboard.index');
+    Route::get('logout', [LoginController::class, 'logout'])->name('admin.login.logout');
+});
+
+Route::fallback(function () {
+    return redirect()->route('admin.login.show');
 });
