@@ -26,7 +26,7 @@
             @include( 'backend.includes.content' )
             <!-- /.content-wrapper -->
             <!-- Main Footer -->
-            @include( 'backend.includes.footer' )
+            <!--@include( 'backend.includes.footer' )-->
         </div>
         <!-- ./wrapper -->
         <!-- REQUIRED SCRIPTS -->
